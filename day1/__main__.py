@@ -11,7 +11,13 @@ for line in lines:
     sum += lib.first_and_last_number_as_int(line)
 
 part1 = sum
-part2 = None
+
+sum = 0
+for line in lines:
+    value = lib.first_and_last_number2_as_int(line)
+    sum += value
+
+part2 = sum
 
 print(f"Part 1: {part1}")
 print(f"Part 2: {part2}")
