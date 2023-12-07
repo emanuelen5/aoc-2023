@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 day="$1"
+cd "$day" || exit 1
 
-python3 -m unittest discover "$day" && echo "Tests passed"
-python3 -m "$day"
+cargo test && echo "Tests passed"
+cargo run

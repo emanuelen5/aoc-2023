@@ -1,5 +1,7 @@
 # Advent of Code 2023
 
+I'm trying out Rust this year!
+
 ## Creating a template for a new day
 Create a template directory for a specific date, with a simple standard format with template for unit tests and main solution:
 
