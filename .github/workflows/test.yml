@@ -16,5 +16,7 @@ jobs:
     - name: Run tests
       run: |
         for day in day*; do
+          echo "::group::$day"
           ./run.sh "$day"
+          echo "::endgroup::"
         done
