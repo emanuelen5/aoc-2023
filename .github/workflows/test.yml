@@ -1,0 +1,20 @@
+name: Run unit tests
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install prerequisites
+      run: |
+        sudo apt install -y python3 python3-pip
+    - uses: actions/checkout@v3
+    - name: Run tests
+      run: |
+        for day in day*; do
+          ./run.sh "$day"
+        done
