@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: day1",
+            "name": "Python: day",
             "type": "python",
             "request": "launch",
-            "module": "day1",
+            "module": "day3",
             "justMyCode": true
         },
         {
@@ -18,7 +18,7 @@
             "module": "unittest",
             "args": [
                 "discover",
-                "day1"
+                "day3"
             ],
             "justMyCode": true
         }
