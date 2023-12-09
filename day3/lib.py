@@ -149,6 +149,8 @@ def adjacent_numbers(padded_lines: list[str], gear: Pos) -> list[int]:
         (row, outer_left_col),
         (row + 1, outer_left_col),
         (row - 1, outer_right_col),
+        (row - 1, gear.col),
+        (row + 1, gear.col),
         (row, outer_right_col),
         (row + 1, outer_right_col),
     ):
