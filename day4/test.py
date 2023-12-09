@@ -31,5 +31,21 @@ class TestPart(unittest.TestCase):
     def test_part1(self):
         self.assertEqual(13, lib.part1(test_input_lines))
 
+    def test_part2(self):
+        self.assertEqual(30, lib.part2(test_input_lines))
+
+
+class TestBins(unittest.TestCase):
+    def test_process_cards(self):
+        slots = lib.Slots(test_input_lines)
+        self.assertEqual(0, slots.extra_cards)
+        self.assertEqual(6, slots.cards)
+        self.assertEqual([1] * 6, slots.state)
+
+        new_slots = slots.process_card(test_input_lines, card=0)
+        self.assertEqual(4, new_slots.extra_cards)
+        self.assertEqual(10, new_slots.cards)
+        self.assertEqual([1, 2, 2, 2, 2, 1], new_slots.state)
+
 
 tc = unittest.TestCase()
