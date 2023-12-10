@@ -53,3 +53,19 @@ def part1(lines: list[str]) -> int:
             sum += game_id
 
     return sum
+
+
+def get_power(max_dice: dict[str, int]) -> int:
+    power = 1
+    for dice in max_dice.values():
+        power *= dice
+    return power
+
+
+def part2(lines: list[str]) -> int:
+    power = 0
+    for line in lines:
+        max_colors = parse_line(line)
+        power += get_power(max_colors)
+
+    return power

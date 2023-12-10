@@ -34,7 +34,16 @@ class Test(unittest.TestCase):
             ),
         )
 
+    def test_get_power(self):
+        self.assertEqual(
+            48,
+            lib.get_power({"red": 4, "green": 2, "blue": 6})
+        )
+
 
 class TestPart(unittest.TestCase):
     def test_part1(self):
         self.assertEqual(8, lib.part1(test_input_lines))
+
+    def test_part2(self):
+        self.assertEqual(2286, lib.part2(test_input_lines))
