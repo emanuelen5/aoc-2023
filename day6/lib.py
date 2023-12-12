@@ -41,3 +41,10 @@ def part1(lines: list[str]) -> int:
     for t, d in zip(times, distances):
         key *= get_winning_times_count(t, d)
     return key
+
+
+def part2(lines: list[str]) -> int:
+    times, distances = parse_input(lines)
+    time = int("".join(str(t) for t in times))
+    distance = int("".join(str(d) for d in distances))
+    return get_winning_times_count(time, distance)
