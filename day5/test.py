@@ -28,16 +28,16 @@ class TestParse(unittest.TestCase):
     def test_parse_maps(self):
         parse = lib.parse_input(test_input_lines)
         self.assertEqual(
-            lib.Converter([lib.Map(50, 98, 2), lib.Map(52, 50, 48)]), parse.stages[0]
+            lib.Converter({lib.Map(98, 50, 2), lib.Map(50, 52, 48)}), parse.stages[0]
         )
         self.assertEqual(
-            lib.Converter([lib.Map(60, 56, 37), lib.Map(56, 93, 4)]), parse.stages[6]
+            lib.Converter({lib.Map(56, 60, 37), lib.Map(93, 56, 4)}), parse.stages[6]
         )
 
 
 class TestMap(unittest.TestCase):
     def test_convert(self):
-        map = lib.Map(101, 1, 5)
+        map = lib.Map(1, 101, 5)
         self.assertEqual(0, map.map(0))
         self.assertEqual(101, map.map(1))
         self.assertEqual(104, map.map(4))
@@ -45,8 +45,13 @@ class TestMap(unittest.TestCase):
 
 
 class TestConverter(unittest.TestCase):
+    def test_equal(self):
+        self.assertEqual(
+            lib.Converter({lib.Map(0, 0, 0)}), lib.Converter({lib.Map(0, 0, 0)})
+        )
+
     def test_map(self):
-        converter = lib.Converter([lib.Map(50, 98, 2), lib.Map(52, 50, 48)])
+        converter = lib.Converter({lib.Map(98, 50, 2), lib.Map(50, 52, 48)})
         self.assertEqual(14, converter.map(14))
         self.assertEqual(13, converter.map(13))
         self.assertEqual(81, converter.map(79))
