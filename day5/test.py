@@ -43,6 +43,21 @@ class TestMap(unittest.TestCase):
         self.assertEqual(104, map.map(4))
         self.assertEqual(105, map.map(5))
 
+    def test_reverse_map_no_mapping(self):
+        map = lib.Map(0, 10, 10)
+        self.assertEqual(None, map.reverse_map(0))
+        self.assertEqual(None, map.reverse_map(9))
+
+    def test_reverse_map_output_map(self):
+        map = lib.Map(0, 10, 10)
+        self.assertEqual(0, map.reverse_map(10))
+        self.assertEqual(9, map.reverse_map(19))
+
+    def test_reverse_map_uniform(self):
+        map = lib.Map(0, 10, 10)
+        self.assertEqual(20, map.reverse_map(20))
+        self.assertEqual(-1, map.reverse_map(-1))
+
 
 class TestConverter(unittest.TestCase):
     def test_equal(self):
@@ -62,5 +77,5 @@ class TestPart(unittest.TestCase):
     def test_part1(self):
         self.assertEqual(35, lib.part1(test_input_lines))
 
-
-tc = unittest.TestCase()
+    def test_part2(self):
+        self.assertEqual(46, lib.part2(test_input_lines))

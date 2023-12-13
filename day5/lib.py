@@ -11,13 +11,23 @@ class Map:
         self.this_end = self.this_start + self.length - 1
         self.that_end = self.that_start + self.length - 1
 
-    def in_range(self, input: int) -> int:
+    def in_range(self, input: int) -> bool:
         return self.this_start <= input <= self.this_end
+
+    def out_range(self, output: int) -> bool:
+        return self.that_start <= output <= self.that_end
 
     def map(self, input: int) -> int:
         if self.in_range(input):
             return input - self.this_start + self.that_start
         return input
+
+    def reverse_map(self, output: int) -> None | int:
+        if self.out_range(output):
+            return output + self.this_start - self.that_start
+        if self.in_range(output):
+            return None
+        return output
 
     def __hash__(self) -> int:
         return hash((self.that_start, self.this_start, self.length))
@@ -35,6 +45,14 @@ class Converter:
             if map.in_range(input):
                 return map.map(input)
         return input
+
+    def reverse_map(self, output: int) -> None | int:
+        for map in self.maps:
+            if map.out_range(output):
+                return map.reverse_map(output)
+            if map.in_range(output):
+                return None
+        return output
 
     def __repr__(self) -> str:
         s = ""
