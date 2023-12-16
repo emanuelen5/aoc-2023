@@ -119,10 +119,12 @@ def chunks(lst, n):
 
 def part2(lines: list[str]) -> int:
     parse = parse_input(lines)
-    locations = []
+    min_location = 1e20
+    seed = None
     for first_seed, length in chunks(parse.seeds, 2):
-        last_seed = first_seed + length - 1
-        locations.append(first_seed)
-        locations.append(last_seed)
+        for seed in range(first_seed, first_seed + length):
+            location = parse.seed_location(seed)
+            if location < min_location:
+                min_location = location
 
-    return min(locations)
+    return min_location
