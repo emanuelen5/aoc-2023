@@ -17,6 +17,7 @@ jobs:
       run: |
         for day in day*; do
           echo "::group::$day"
-          ./run.sh "$day"
+          flags=$(.github/workflows/day-flags.sh "$day")
+          ./run.sh "$day" $flags
           echo "::endgroup::"
         done
