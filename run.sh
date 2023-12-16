@@ -15,8 +15,15 @@ for arg in "$@"; do
     esac
 done
 
+echo "****************************"
+echo "Running unit-tests for $day"
 python3 -m unittest discover "$day" && echo "Tests passed"
+echo
 
 if $run_prod; then
+    echo "********************************"
+    echo "Running production run for $day"
     python3 -m "$day"
+else
+    echo "Skipping production run..."
 fi
