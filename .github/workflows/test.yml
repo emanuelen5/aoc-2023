@@ -17,6 +17,12 @@ jobs:
       run: |
         for day in day*; do
           echo "::group::$day"
-          ./run.sh "$day"
+
+          flags=$(.github/workflows/day-flags.sh "$day")
+          if [ -n "$flags" ]; then
+            echo "::warning::Running $day with extra flags $flags"
+          fi
+
+          ./run.sh "$day" $flags
           echo "::endgroup::"
         done
