@@ -46,7 +46,9 @@ class Test(unittest.TestCase):
         self.assertEqual(lib.HandType.HighCard, lib.classify_hand("23456"))
 
     def test_compare_hand(self):
-        self.assertEqual(lib.is_larger, lib.is_hand_larger("33332", "2AAAA"))
+        self.assertEqual(
+            lib.is_larger, lib.is_hand_larger("33332", "2AAAA", with_joker=False)
+        )
 
     def test_parse(self):
         hands = lib.parse_lines(test_input_lines)
@@ -54,9 +56,9 @@ class Test(unittest.TestCase):
         self.assertEqual(("QQQJA", 483), hands[-1])
 
     def test_compare_hands(self):
-        self.assertEqual(-1, lib.is_hand_larger('T55J5', 'QQQJA'))
-        self.assertEqual( 1, lib.is_hand_larger('QQQJA', 'T55J5'))
-        self.assertEqual(-1, lib.is_hand_larger('KK677', 'T55J5'))
+        self.assertEqual(-1, lib.is_hand_larger("T55J5", "QQQJA", with_joker=False))
+        self.assertEqual(1, lib.is_hand_larger("QQQJA", "T55J5", with_joker=False))
+        self.assertEqual(-1, lib.is_hand_larger("KK677", "T55J5", with_joker=False))
 
     def test_is_hand_larger(self):
         sorted_cards = ["32T3K", "KTJJT", "KK677", "T55J5", "QQQJA"]
@@ -64,12 +66,12 @@ class Test(unittest.TestCase):
         for cards1, cards2 in zip(sorted_cards[:-1], sorted_cards[1:]):
             self.assertEqual(
                 lib.is_larger,
-                lib.is_hand_larger(cards2, cards1),
+                lib.is_hand_larger(cards2, cards1, with_joker=False),
                 f"{cards2} is larger than {cards1}",
             )
             self.assertEqual(
                 lib.is_smaller,
-                lib.is_hand_larger(cards1, cards2),
+                lib.is_hand_larger(cards1, cards2, with_joker=False),
                 f"{cards2} is smaller than {cards1}",
             )
 
@@ -81,6 +83,22 @@ class Test(unittest.TestCase):
         self.assertEqual(sorted_cards, cards)
 
 
+class TestJoker(unittest.TestCase):
+    def test_get_best_hand(self):
+        self.assertEqual("2QQQQ", "".join(sorted(lib.get_best_hand("QJJQ2"))))
+        self.assertEqual("2QQQQ", "".join(sorted(lib.get_best_hand("QJJQ2"))))
+
+    def test_sort_hands(self):
+        hands = lib.parse_lines(test_input_lines)
+        hands = lib.sort_hands_joker(hands)
+        cards = [hand[0] for hand in hands]
+        sorted_cards = ["32T3K", "KK677", "T55J5", "QQQJA", "KTJJT"]
+        self.assertEqual(sorted_cards, cards)
+
+
 class TestPart(unittest.TestCase):
     def test_part1(self):
         self.assertEqual(6440, lib.part1(test_input_lines))
+
+    def test_part2(self):
+        self.assertEqual(5905, lib.part2(test_input_lines))
