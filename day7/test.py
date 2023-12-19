@@ -1,4 +1,5 @@
 import unittest
+from collections import Counter
 from pathlib import Path
 
 import lib
@@ -84,9 +85,50 @@ class Test(unittest.TestCase):
 
 
 class TestJoker(unittest.TestCase):
+    def assert_larger(self, larger: str, smaller: str):
+        self.assertEqual(
+            lib.is_larger, lib.is_hand_larger(larger, smaller, with_joker=True)
+        )
+        self.assertEqual(
+            lib.is_smaller, lib.is_hand_larger(smaller, larger, with_joker=True)
+        )
+
+    def test_compare_hands(self):
+        self.assert_larger("22222", "J2222")
+
+    def test_classify_hand(self):
+        self.assertEqual(
+            lib.HandType.FourOfAKind, lib.classify_hand_with_joker("QJJQ2")
+        )
+        self.assertEqual(
+            lib.HandType.FiveOfAKind, lib.classify_hand_with_joker("QJQQJ")
+        )
+        self.assertEqual(
+            lib.HandType.FiveOfAKind, lib.classify_hand_with_joker("JJJJJ")
+        )
+
+    def assert_one_of_best_hand(self, cards: str, of_hands: set[str]):
+        best_hand = lib.get_best_hand(cards)
+        for expected_hand in of_hands:
+            try:
+                self.assertEqual(Counter(best_hand), Counter(expected_hand))
+                return
+            except AssertionError:
+                pass
+        raise AssertionError(
+            f"Hand {cards}, with best hand = {best_hand} did not match any of"
+            f" the expected hands: {of_hands}"
+        )
+
+    def test_get_best_hand_of_many(self):
+        self.assert_one_of_best_hand("2345J", {"23452", "23453", "23454", "23455"})
+        self.assert_one_of_best_hand("2345J", {"23452", "23453", "23454", "23455"})
+
+    def assert_best_hand(self, expected_cards: str, cards: str):
+        self.assertEqual(Counter(expected_cards), Counter(lib.get_best_hand(cards)))
+
     def test_get_best_hand(self):
-        self.assertEqual("2QQQQ", "".join(sorted(lib.get_best_hand("QJJQ2"))))
-        self.assertEqual("2QQQQ", "".join(sorted(lib.get_best_hand("QJJQ2"))))
+        self.assert_best_hand("QQQQ2", "QJJQ2")
 
     def test_sort_hands(self):
         hands = lib.parse_lines(test_input_lines)

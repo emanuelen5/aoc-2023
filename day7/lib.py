@@ -63,8 +63,8 @@ is_smaller = -1
 def is_hand_larger(cards1: str, cards2: str, with_joker: bool) -> int:
     if with_joker:
         card_rank = joker_rank
-        hand1_class = classify_hand(get_best_hand(cards1))
-        hand2_class = classify_hand(get_best_hand(cards2))
+        hand1_class = classify_hand_with_joker(cards1)
+        hand2_class = classify_hand_with_joker(cards2)
     else:
         card_rank = regular_rank
         hand1_class = classify_hand(cards1)
@@ -82,6 +82,11 @@ def is_hand_larger(cards1: str, cards2: str, with_joker: bool) -> int:
     raise ValueError(
         "Could not determine which hand was best." f" Got {cards1=} vs {cards2=}"
     )
+
+
+def classify_hand_with_joker(cards: str) -> HandType:
+    best_hand = get_best_hand(cards)
+    return classify_hand(best_hand)
 
 
 def classify_hand(cards: str) -> HandType:
@@ -130,6 +135,9 @@ def get_best_hand(cards: str) -> str:
     joker_count = cards_and_counts["J"]
 
     cards_without_jokers = cards.replace("J", "")
+
+    if len(cards_without_jokers) == 0:
+        return "AAAAA"
 
     return build_best_hand(cards_without_jokers, joker_count)
 
