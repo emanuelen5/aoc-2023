@@ -20,5 +20,14 @@ class Test(unittest.TestCase):
         self.assertEqual(28, lib.predict(histories[1]))
         self.assertEqual(68, lib.predict(histories[2]))
 
+    def test_extrapolate(self):
+        histories = lib.parse(test_input_lines)
+        self.assertEqual(-3, lib.extrapolate_backwards(histories[0]))
+        self.assertEqual(0, lib.extrapolate_backwards(histories[1]))
+        self.assertEqual(5, lib.extrapolate_backwards(histories[2]))
+
     def test_part1(self):
         self.assertEqual(114, lib.part1(test_input_lines))
+
+    def test_part2(self):
+        self.assertEqual(2, lib.part2(test_input_lines))
