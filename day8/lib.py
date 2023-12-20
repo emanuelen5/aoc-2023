@@ -1,4 +1,5 @@
 import dataclasses
+import math
 
 
 @dataclasses.dataclass
@@ -62,27 +63,25 @@ def lr_generator2(lr: str):
         yield from enumerate(lr)
 
 
-def part2(lines: list[str]) -> int:
-    lr, network = parse(lines)
-    nodes = [n for name, n in network.items() if name.endswith("A")]
-    print(len(lr))
-
-    lr_gen = lr_generator2(lr)
-
+def steps_to_first_z(lrs, start_node: str) -> int:
+    node = start_node
     count = 0
-    last_sync = 0
-    for offset, lr in lr_gen:
+    for lr in lr_generator(lrs):
         if lr == "L":
-            nodes = [n.left for n in nodes]
+            node = node.left
         else:
-            nodes = [n.right for n in nodes]
-
+            node = node.right
         count += 1
-        synced = [n.name.endswith("Z") for n in nodes]
-        if any(synced):
-            print(count, offset, lr, "".join([("X" if s else "-") for s in synced]), count - last_sync)
-            last_sync = count
-        if all(synced):
+
+        if node.name.endswith("Z"):
             break
 
     return count
+
+
+def part2(lines: list[str]) -> int:
+    lrs, network = parse(lines)
+    nodes = [n for name, n in network.items() if name.endswith("A")]
+
+    periods = [steps_to_first_z(lrs, n) for n in nodes]
+    return math.lcm(*periods)
