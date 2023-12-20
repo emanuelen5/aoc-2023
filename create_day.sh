@@ -35,6 +35,10 @@ elif ! [ -d "$dir" ]; then
     cp -r template/ "$dir"
 fi
 
+if which code; then
+    code "$dir/data/input.txt" "$dir/data/test_input.txt"
+fi
+
 read -rp "Paste input data into '$dir/data/input.txt' and '$dir/data/test_input.txt' and then press Enter to continue... "
 
 git add "$dir"
