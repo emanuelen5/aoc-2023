@@ -8,7 +8,7 @@
             "name": "Python: day",
             "type": "python",
             "request": "launch",
-            "module": "day7",
+            "module": "day10",
             "justMyCode": true
         },
         {
@@ -18,7 +18,7 @@
             "module": "unittest",
             "args": [
                 "discover",
-                "day7"
+                "day10"
             ],
             "justMyCode": true
         }
